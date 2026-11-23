@@ -1,0 +1,43 @@
+name: Scheduled Health Check
+
+# Controls when the action will run.
+on:
+  schedule:
+    - cron: "0/30 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  # Evita que ejecuciones programadas se solapen (el health-check puede tardar
+  # más de 15 min con muchos servicios), lo que causa conflictos al hacer `git push`.
+  group: health-check
+  cancel-in-progress: false
+
+# Evita warnings de GitHub Actions sobre Node.js 20 (se forzará Node.js 24 por defecto).
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  health_check_job:
+    runs-on: ubuntu-latest
+    name: Check all sites
+    env:
+      # Set also at job-level to ensure the runner picks it for JavaScript actions.
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+    # Necesario para que el workflow pueda hacer `git push` con el historial de logs
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Health Check Script
+        id: shell_script_run
+        env:
+          # Telegram configuration (optional but recommended)
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # GitHub Issues configuration (required for issue creation)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+        run: bash ./scripts/health-check.sh
