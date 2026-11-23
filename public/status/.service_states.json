@@ -1,1 +1,38 @@
-{}
+{
+  "Pagina-web": {
+    "consecutive_failures": 0,
+    "last_status": "success",
+    "first_failure_time": "",
+    "issue_number": null
+  },
+  "Mi-negocio-en-el-mapa": {
+    "consecutive_failures": 0,
+    "last_status": "success",
+    "first_failure_time": "",
+    "issue_number": null
+  },
+  "Pluvia": {
+    "consecutive_failures": 0,
+    "last_status": "success",
+    "first_failure_time": "",
+    "issue_number": null
+  },
+  "Nube": {
+    "consecutive_failures": 0,
+    "last_status": "success",
+    "first_failure_time": "",
+    "issue_number": null
+  },
+  "Inbox": {
+    "consecutive_failures": 0,
+    "last_status": "success",
+    "first_failure_time": "",
+    "issue_number": null
+  },
+  "Reporta": {
+    "consecutive_failures": 0,
+    "last_status": "success",
+    "first_failure_time": "",
+    "issue_number": null
+  }
+}
